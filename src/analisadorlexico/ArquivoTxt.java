@@ -65,7 +65,7 @@ public class ArquivoTxt {
                 
                 char c = (char) value;
                 
-                if(value == 10 ){//--quebra de linha
+                if(c == '\n' ){//--quebra de linha
                     
                     System.out.println("quebra de linha!");
                     tokens.add('\n');

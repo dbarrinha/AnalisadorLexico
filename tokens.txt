@@ -1,3 +1,1 @@
-kena3dg2a.y 
-fs
-dasd
+k_fs 

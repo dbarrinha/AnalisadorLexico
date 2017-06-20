@@ -207,6 +207,114 @@ public class AnalisadorLexico {
             
         }
     }
+    
+    public static void comentarios(ArrayList<Character> fonte){
+        int tamanho = fonte.size();
+        int estado = 1;
+        int flag = 0;
+        String acc = "";
+        
+        do{
+            switch(estado){
+                case 1:{
+                    if(fonte.get(index) == '/' ){
+                        estado = 2;acc += fonte.get(index);index++;
+                    }
+                    else if(fonte.get(index) == '-'){
+                        estado = 6;acc += fonte.get(index);index++;
+                    }
+                    else if(fonte.get(index)=='@'){
+                        estado= 10;acc += fonte.get(index);index++;
+                    }
+                    else flag = 1;
+                    break;
+                }
+                case 2:{
+                    if(fonte.get(index) == '/' ){
+                        estado = 3;acc += fonte.get(index);index++;
+                    }
+                    else flag = 1;
+                    break;
+                }
+                case 3:{
+                    if(fonte.get(index)=='/'){
+                        estado = 4;acc += fonte.get(index);index++;
+                    }
+                    else {
+                        estado =3;acc += fonte.get(index);index++;
+                    }
+                    break;
+                }
+                case 4:{
+                    if(fonte.get(index)=='/'){
+                        estado = 5;acc += fonte.get(index);index++;
+                    }
+                    else estado =3;
+                    break;
+                }
+                case 5:{
+                    flag = 1;
+                    break;
+                }
+                case 6:{
+                    if(fonte.get(index)=='-'){
+                        estado = 7;acc += fonte.get(index);index++;
+                    }
+                    else flag = 1;
+                    break;
+                }
+                case 7:{
+                    if(fonte.get(index)=='-'){
+                        estado = 8;acc += fonte.get(index);index++;
+                    }
+                    else {
+                        estado =7;acc += fonte.get(index);index++;
+                    }
+                    break;
+                }
+                case 8:{
+                    if(fonte.get(index)=='-'){
+                        estado = 9;acc += fonte.get(index);index++;
+                    }
+                    else estado=7;
+                    break;
+                }
+                case 9:{
+                    flag = 1;
+                    break;
+                }
+                case 10:{
+                    if(fonte.get(index)=='@'){
+                        estado = 11;acc += fonte.get(index);index++;
+                    }
+                    else flag = 1;
+                    break;
+                }
+                case 11:{
+                    if(fonte.get(index)=='\n'){
+                        estado = 12;index++;
+                    }
+                    else {
+                        estado=11;acc += fonte.get(index);index++;
+                    }
+                    break;
+                }
+                case 12:{
+                    flag = 1;
+                    break;
+                }
+            }   
+            //System.out.println(estado);
+        }while(index < tamanho && flag != 1);
+        if(estado == 5 || estado == 9 || estado == 12 ){
+            System.out.println("Reconheceu: " + acc + " -> Comentário");
+            
+        }
+        else{
+            System.out.println("Não reconheceu comentário: "+acc + "esperado a finalização do comentário");
+            
+        }
+    }
             
     public static void main(String[] args) {
         ArquivoTxt txt = new ArquivoTxt();
@@ -223,7 +331,11 @@ public class AnalisadorLexico {
             }else if(Character.isWhitespace(fonte.get(index))){
                 System.out.println("#########Pulou por ser espaço em branco##########\n");
                 index++;
-            }else if(PalavrasReservadas.isSimbolo(fonte.get(index))){
+            }
+            else if(fonte.get(index)=='/' && fonte.get(index+1)=='/' || fonte.get(index)=='-' && fonte.get(index+1)=='-' || fonte.get(index)=='@' && fonte.get(index+1)=='@'){
+                comentarios(fonte);
+            }
+            else if(PalavrasReservadas.isSimbolo(fonte.get(index))){
                 simbolosEspeciais(fonte);
             }else{
                 System.out.println("ERROR!");

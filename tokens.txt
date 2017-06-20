@@ -1,3 +1,2 @@
-1,2se s_4234 & 123+=uespi 2a
-
-{inteiro x}
+1,2se s_4234 123+=uespi 2a --fsdfs
+	{inteiro x}--

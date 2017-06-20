@@ -69,8 +69,8 @@ public class AnalisadorLexico {
             
         }while(index < tamanho && flag != 1);
         if(estado == 1 || estado == 2){
-            if(PalavrasReservadas.isPlavraReservada(acc))System.out.println("Reconheceu: " + acc + " - Palavra Reservada");
-            else System.out.println("Reconheceu: " + acc + " - Identificador");
+            if(PalavrasReservadas.isPlavraReservada(acc))System.out.println("Reconheceu: " + acc + " -> Palavra Reservada");
+            else System.out.println("Reconheceu: " + acc + " -> Identificador");
             
         }
         else{
@@ -134,7 +134,7 @@ public class AnalisadorLexico {
             
         }while(index < tamanho && flag != 1);
         if(estado == 2 || estado == 4){
-            System.out.println("Reconheceu: " + acc + " - Digito");
+            System.out.println("Reconheceu: " + acc + " -> Digito");
             
         }
         else{
@@ -145,7 +145,7 @@ public class AnalisadorLexico {
     
     public static void simbolosEspeciais(ArrayList<Character> fonte){
         int tamanho = fonte.size();
-        int estado = 1;
+        int estado = 0;
         int flag = 0;
         String acc = "";
         
@@ -159,33 +159,38 @@ public class AnalisadorLexico {
                     }
                     else if(fonte.get(index) == '+' || fonte.get(index) == '-' 
                             || fonte.get(index) == '>' || fonte.get(index) == ':'){
-                        estado = 2;acc += fonte.get(index);index++;//parei aqui
+                        estado = 2;acc += fonte.get(index);index++;
+                    }
+                    else if(fonte.get(index)=='<'){
+                        estado= 4;acc += fonte.get(index);index++;
                     }
                     else flag = 1;
                     break;
                 }
                 case 1:{
-                    if(isLetraOuDigito(fonte.get(index))){
-                        estado =2;acc += fonte.get(index);index++;
-                    }
-                    else if(fonte.get(index)=='_' || fonte.get(index)=='$'){
+                    flag = 1;
+                    break;
+                }
+                case 2:{
+                    if(fonte.get(index)=='='){
                         estado = 3;acc += fonte.get(index);index++;
                     }
                     else flag = 1;
                     break;
                 }
-                case 2:{
-                    if(isLetraOuDigito(fonte.get(index))){
-                        estado =2;acc += fonte.get(index);index++;
+                case 3: {
+                    flag = 1;
+                    break;
+                }
+                case 4: {
+                    if(fonte.get(index)=='>'){
+                        estado =5;acc += fonte.get(index);index++;
                     }
                     else flag = 1;
                     break;
                 }
-                case 3: {
-                    if(isLetraOuDigito(fonte.get(index))){
-                        estado =2;acc += fonte.get(index);index++;
-                    }
-                    else flag = 1;
+                case 5: {
+                    flag = 1;
                     break;
                 }
                 
@@ -193,9 +198,8 @@ public class AnalisadorLexico {
             }   
             
         }while(index < tamanho && flag != 1);
-        if(estado == 1 || estado == 2){
-            if(PalavrasReservadas.isPlavraReservada(acc))System.out.println("Reconheceu: " + acc + " - Palavra Reservada");
-            else System.out.println("Reconheceu: " + acc + " - Identificador");
+        if(estado == 1 || estado == 2 || estado == 3 || estado == 4 || estado == 5){
+            System.out.println("Reconheceu: " + acc + " -> Simbolo Especial");
             
         }
         else{
@@ -217,10 +221,10 @@ public class AnalisadorLexico {
             }else if(isDigito(fonte.get(index)) || (fonte.get(index)=='-' && isDigito(fonte.get(index+1)))){
                 digitos(fonte);
             }else if(Character.isWhitespace(fonte.get(index))){
-                System.out.println("Pulou por ser espaço em branco");
+                System.out.println("#########Pulou por ser espaço em branco##########\n");
                 index++;
             }else if(PalavrasReservadas.isSimbolo(fonte.get(index))){
-                
+                simbolosEspeciais(fonte);
             }else{
                 System.out.println("ERROR!");
                 index=fonte.size()+1;
@@ -232,12 +236,3 @@ public class AnalisadorLexico {
     }
     
 }
-//            if(txt.isLetra(c)){
-//                
-//            }else if(txt.isDigito(c) || (c=='-' && txt.isDigito(fonte.get(1)))){
-//                //digito
-//            }else if(c=='/' || c=='@' || c=='-'){
-//                //comentario
-//            }else{
-//                //simbolos especiais
-//            }

@@ -1,1 +1,3 @@
-se senão 123*uespi
+1,2se s_4234 & 123+=uespi 2a
+
+{inteiro x}

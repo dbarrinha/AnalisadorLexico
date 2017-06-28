@@ -260,14 +260,18 @@ public class AnalisadorLexico {
                 }
                 case 6:{
                     if(fonte.get(index)=='-'){
-                        estado = 7;acc += fonte.get(index);index++;
+                        estado = 7;
+                        acc += fonte.get(index);
+                        index++;
                     }
                     else flag = 1;
                     break;
                 }
                 case 7:{
                     if(fonte.get(index)=='-'){
-                        estado = 8;acc += fonte.get(index);index++;
+                        estado = 8;
+                        acc += fonte.get(index);
+                        index++;
                     }
                     else {
                         estado =7;
@@ -278,7 +282,9 @@ public class AnalisadorLexico {
                 }
                 case 8:{
                     if(fonte.get(index)=='-'){
-                        estado = 9;acc += fonte.get(index);index++;
+                        estado = 9;
+                        acc += fonte.get(index);
+                        index++;
                     }
                     else estado=7;
                     break;

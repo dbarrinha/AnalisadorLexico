@@ -348,7 +348,7 @@ public class AnalisadorLexico {
             else if(PalavrasReservadas.isSimbolo(fonte.get(index))){
                 simbolosEspeciais(fonte);
             }else{
-                System.out.println("ERROR!");
+                System.err.println("ERROR - CARACTER INVÁLIDO!");
                 index=fonte.size()+1;
             }
         }

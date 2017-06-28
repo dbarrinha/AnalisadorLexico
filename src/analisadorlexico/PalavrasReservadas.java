@@ -8,6 +8,11 @@ public class PalavrasReservadas {
             ,"real","caractere","caso","escolha","fim","procedimento"
             ,"função","de","para","inicio"};
     
+    
+    
+    
+    
+    
     static Character[] simbolos = {';',',','.','+','-','*','(',')','<','>',':','=','{','}','/','@'};
     public static boolean isPlavraReservada(String palavra){
         for(int i=0;i < palavrasreservadas.length;i++){

@@ -67,15 +67,15 @@ public class ArquivoTxt {
                 
                 if(c == '\n' ){//--quebra de linha
                     
-                    System.out.println("quebra de linha!");
+                    //System.out.println("quebra de linha!");
                     tokens.add('\n');
                 }else if(value == 13){//--segundo caracter da quebra de linha,deve ser ignorado
                     
                 }else if(Character.isSpace(c)){//--Espaço
-                    System.out.println("Space");
+                    //System.out.println("Space");
                     tokens.add(' ');
                 }else{
-                    System.out.println("Caracter lido: "+ c + " "+isDigitoOrLetra(c));
+                    //System.out.println("Caracter lido: "+ c + " "+isDigitoOrLetra(c));
                     tokens.add(c);
                 }
                 

@@ -1,2 +1,9 @@
-1,2se s_4234 123+=uespi 2a --fsdfs
-	{inteiro x}--
+1,2 se s_4234 123+=uespi 2a --fsdfs
+	{inteiro * += x}-- fsdffsdf*  +=
+
+@@fsdfsdfsd
+
+-3,68987	
+
+<style>
+				  	

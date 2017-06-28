@@ -213,7 +213,7 @@ public class AnalisadorLexico {
         int estado = 1;
         int flag = 0;
         String acc = "";
-        
+        String textoComentado = "";
         do{
             switch(estado){
                 case 1:{
@@ -241,7 +241,9 @@ public class AnalisadorLexico {
                         estado = 4;acc += fonte.get(index);index++;
                     }
                     else {
-                        estado =3;acc += fonte.get(index);index++;
+                        estado =3;
+                        textoComentado += fonte.get(index);//acc += fonte.get(index);
+                        index++;
                     }
                     break;
                 }
@@ -268,7 +270,9 @@ public class AnalisadorLexico {
                         estado = 8;acc += fonte.get(index);index++;
                     }
                     else {
-                        estado =7;acc += fonte.get(index);index++;
+                        estado =7;
+                        textoComentado += fonte.get(index);//acc += fonte.get(index);
+                        index++;
                     }
                     break;
                 }
@@ -295,7 +299,9 @@ public class AnalisadorLexico {
                         estado = 12;index++;
                     }
                     else {
-                        estado=11;acc += fonte.get(index);index++;
+                        estado=11;
+                        textoComentado += fonte.get(index);//acc += fonte.get(index);
+                        index++;
                     }
                     break;
                 }
@@ -303,16 +309,14 @@ public class AnalisadorLexico {
                     flag = 1;
                     break;
                 }
-            }   
-            //System.out.println(estado);
+            }
         }while(index < tamanho && flag != 1);
         if(estado == 5 || estado == 9 || estado == 12 ){
             System.out.println("Reconheceu: " + acc + " -> Comentário");
-            
+            System.out.println("Texto Comentado: " + textoComentado );
         }
         else{
             System.out.println("Não reconheceu comentário: "+acc + "esperado a finalização do comentário");
-            
         }
     }
             
@@ -329,7 +333,7 @@ public class AnalisadorLexico {
             }else if(isDigito(fonte.get(index)) || (fonte.get(index)=='-' && isDigito(fonte.get(index+1)))){
                 digitos(fonte);
             }else if(Character.isWhitespace(fonte.get(index))){
-                System.out.println("#########Pulou por ser espaço em branco##########\n");
+                //System.out.println("#########Pulou por ser espaço em branco##########\n");
                 index++;
             }
             else if(fonte.get(index)=='/' && fonte.get(index+1)=='/' || fonte.get(index)=='-' && fonte.get(index+1)=='-' || fonte.get(index)=='@' && fonte.get(index+1)=='@'){

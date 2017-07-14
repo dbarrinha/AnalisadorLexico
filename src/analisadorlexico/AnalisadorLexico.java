@@ -30,6 +30,7 @@ public class AnalisadorLexico {
         int flag = 0;
         String acc = "";
         
+        
         do{
             switch(estado){
                 case 0:{
@@ -152,7 +153,7 @@ public class AnalisadorLexico {
         do{
             switch(estado){
                 case 0:{
-                    if(fonte.get(index) == ';' || fonte.get(index) == ',' || fonte.get(index) == '.' || fonte.get(index) == '*' 
+                    if(fonte.get(index) == ';' || fonte.get(index) == ',' || fonte.get(index) == '=' || fonte.get(index) == '.' || fonte.get(index) == '*' 
                             || fonte.get(index) == '(' || fonte.get(index) == ')' || fonte.get(index) == '/' 
                             || fonte.get(index) == '{' || fonte.get(index) == '}' || fonte.get(index) == '@' ){
                         estado = 1;acc += fonte.get(index);index++;
@@ -183,7 +184,7 @@ public class AnalisadorLexico {
                     break;
                 }
                 case 4: {
-                    if(fonte.get(index)=='>'){
+                    if(fonte.get(index)=='>' || fonte.get(index)=='='){
                         estado =5;acc += fonte.get(index);index++;
                     }
                     else flag = 1;
@@ -348,7 +349,7 @@ public class AnalisadorLexico {
             else if(PalavrasReservadas.isSimbolo(fonte.get(index))){
                 simbolosEspeciais(fonte);
             }else{
-                System.err.println("ERROR - CARACTER INVÁLIDO!");
+                System.out.println("ERROR - CARACTER INVÁLIDO!");
                 index=fonte.size()+1;
             }
         }

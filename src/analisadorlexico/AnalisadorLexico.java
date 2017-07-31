@@ -2,14 +2,14 @@
 package analisadorlexico;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class AnalisadorLexico {
     
-    
-    char caracterAtual;
-    String tokenAtual;
+    private List<Token> tokens = new ArrayList();
     public static int index = 0;
+    ArrayList<Character> fonte;
     
     public static boolean isDigito(char value){
         return Character.isDigit(value);
@@ -23,7 +23,7 @@ public class AnalisadorLexico {
     
     
     //testeas de é quebra de linha ou espaço pra terminar tbm
-    public static void identificador2(ArrayList<Character> fonte){
+    public Token identificador2(ArrayList<Character> fonte){
         
         int tamanho = fonte.size();
         int estado = 0;
@@ -69,17 +69,31 @@ public class AnalisadorLexico {
             }   
             
         }while(index < tamanho && flag != 1);
+        Token token = new Token();
         if(estado == 1 || estado == 2){
-            if(PalavrasReservadas.isPlavraReservada(acc))System.out.println("Reconheceu: " + acc + " -> Palavra Reservada");
-            else System.out.println("Reconheceu: " + acc + " -> Identificador");
+            if(PalavrasReservadas.isPlavraReservada(acc)){
+                System.out.println("Reconheceu: " + acc + " -> Palavra Reservada");
+                
+                token.setNome(acc);
+                token.setTipo(2);
+                return token;
+                
+            }
+            else {
+                System.out.println("Reconheceu: " + acc + " -> Identificador");
+                token.setNome(acc);
+                token.setTipo(1);
+                return token;
+            }
             
         }
         else{
             System.out.println("Não reconheceu: "+acc);
-            
+            token.setTipo(0);
+            return token;
         }
     }
-    public static void digitos(ArrayList<Character> fonte){
+    public  Token digitos(ArrayList<Character> fonte){
         
         int tamanho = fonte.size();
         int estado = 0;
@@ -134,17 +148,20 @@ public class AnalisadorLexico {
             }   
             
         }while(index < tamanho && flag != 1);
+        Token token = new Token();
         if(estado == 2 || estado == 4){
             System.out.println("Reconheceu: " + acc + " -> Digito");
-            
+                token.setNome(acc);
+                token.setTipo(3);return token;
+                
         }
         else{
             System.out.println("Não reconheceu: "+acc);
-            
+            token.setTipo(0);return token;
         }
     }
     
-    public static void simbolosEspeciais(ArrayList<Character> fonte){
+    public  Token simbolosEspeciais(ArrayList<Character> fonte){
         int tamanho = fonte.size();
         int estado = 0;
         int flag = 0;
@@ -199,17 +216,19 @@ public class AnalisadorLexico {
             }   
             
         }while(index < tamanho && flag != 1);
+        Token token = new Token();
         if(estado == 1 || estado == 2 || estado == 3 || estado == 4 || estado == 5){
             System.out.println("Reconheceu: " + acc + " -> Simbolo Especial");
-            
+                token.setNome(acc);
+                token.setTipo(4);return token;
         }
         else{
             System.out.println("Não reconheceu: "+acc);
-            
+            token.setTipo(0);return token;
         }
     }
     
-    public static void comentarios(ArrayList<Character> fonte){
+    public  Token comentarios(ArrayList<Character> fonte){
         int tamanho = fonte.size();
         int estado = 1;
         int flag = 0;
@@ -318,44 +337,62 @@ public class AnalisadorLexico {
                 }
             }
         }while(index < tamanho && flag != 1);
+        Token token = new Token();
         if(estado == 5 || estado == 9 || estado == 12 ){
             System.out.println("Reconheceu: " + acc + " -> Comentário");
             System.out.println("Texto Comentado: " + textoComentado );
+                token.setNome(acc);
+                token.setTipo(5);return token;
         }
         else{
             System.out.println("Não reconheceu comentário: "+acc + "esperado a finalização do comentário");
+            token.setTipo(0);return token;
         }
     }
-            
-    public static void main(String[] args) {
+    public AnalisadorLexico(){
         ArquivoTxt txt = new ArquivoTxt();
         txt.LerTxt();
-        ArrayList<Character> fonte = txt.getTokens();
+        fonte = txt.getTokens();
+    }
+    public Token lexico(){
         
-        //está pulando o espaço
-            
-        while(index < fonte.size()){
+            System.out.println("index: " + index);
+        
+            Token token = new Token();
+            if(index == fonte.size()){
+                
+                token.setTipo(0);
+                return token;
+            }
             if(isLetra(fonte.get(index))){
-                identificador2(fonte);
+                token =identificador2(fonte);
             }else if(isDigito(fonte.get(index)) || (fonte.get(index)=='-' && isDigito(fonte.get(index+1)))){
-                digitos(fonte);
+                token =digitos(fonte);
             }else if(Character.isWhitespace(fonte.get(index))){
-                //System.out.println("#########Pulou por ser espaço em branco##########\n");
-                index++;
+                
+                index++;token = lexico();
             }
             else if(fonte.get(index)=='/' && fonte.get(index+1)=='/' || fonte.get(index)=='-' && fonte.get(index+1)=='-' || fonte.get(index)=='@' && fonte.get(index+1)=='@'){
-                comentarios(fonte);
+                token =comentarios(fonte);
             }
             else if(PalavrasReservadas.isSimbolo(fonte.get(index))){
-                simbolosEspeciais(fonte);
+                token =simbolosEspeciais(fonte);
             }else{
+                token.setTipo(0);
                 System.out.println("ERROR - CARACTER INVÁLIDO!");
                 index=fonte.size()+1;
             }
-        }
+            
+        return token;
+    }
+   
 
-                
-           
+    public List<Token> getTokens() {
+        return tokens;
+    }
+
+    public void setTokens(List<Token> tokens) {
+        this.tokens = tokens;
     }
     
 }

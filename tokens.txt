@@ -1,5 +1,4 @@
-f"
-	{inteiro * += x} fsdffsdf*  +=
+{inteiro * += x} # fsdffsdf*  +=
 
 @@fsdfsdfsd
 

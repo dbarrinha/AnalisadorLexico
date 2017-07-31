@@ -10,8 +10,16 @@ package analisadorlexico;
  * @author danilo.barrinha
  */
 public class Token {
-    String nome;
-    String tipo;
+    private String nome;
+    private int tipo;
+    /*0 = error
+    1 = identificador
+    2 = palavra reservada
+    3 = digito
+    4 = simbolo especial
+    5 = comentário   */     
+                
+    
 
     public String getNome() {
         return nome;
@@ -21,11 +29,11 @@ public class Token {
         this.nome = nome;
     }
 
-    public String getTipo() {
+    public int getTipo() {
         return tipo;
     }
 
-    public void setTipo(String tipo) {
+    public void setTipo(int tipo) {
         this.tipo = tipo;
     }
 }

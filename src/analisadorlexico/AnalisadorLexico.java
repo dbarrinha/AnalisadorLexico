@@ -356,7 +356,7 @@ public class AnalisadorLexico {
     }
     public Token lexico(){
         
-            System.out.println("index: " + index);
+            
         
             Token token = new Token();
             if(index == fonte.size()){

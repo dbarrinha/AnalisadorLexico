@@ -6,7 +6,7 @@ public class PalavrasReservadas {
     static String [] palavrasreservadas = {"programa","se","então"
             ,"senão","enquanto","faca","ate","repita","inteiro"
             ,"real","caractere","caso","escolha","fim","procedimento"
-            ,"função","de","para","inicio","leia","imprima"};
+            ,"função","de","para","inicio","leia","imprima","var","tipo"};
     
     
     

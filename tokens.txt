@@ -1,4 +1,9 @@
-programa main ; var dsfs : fsfsdf;
-
+programa main ; var dsfs : fsfsdf; dsfs : fsfsdf;
+inicio
+	leia ( aa1,aa2,aa3 );
+	leia(a_a1,aa2,aa3 );
+	error;
+fim
+.
 
 		

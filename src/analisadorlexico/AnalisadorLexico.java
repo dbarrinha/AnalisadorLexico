@@ -72,7 +72,7 @@ public class AnalisadorLexico {
         Token token = new Token();
         if(estado == 1 || estado == 2){
             if(PalavrasReservadas.isPlavraReservada(acc)){
-                System.out.println("Reconheceu: " + acc + " -> Palavra Reservada");
+                //System.out.println("Reconheceu: " + acc + " -> Palavra Reservada");
                 
                 token.setNome(acc);
                 token.setTipo(2);
@@ -80,7 +80,7 @@ public class AnalisadorLexico {
                 
             }
             else {
-                System.out.println("Reconheceu: " + acc + " -> Identificador");
+                //System.out.println("Reconheceu: " + acc + " -> Identificador");
                 token.setNome(acc);
                 token.setTipo(1);
                 return token;
@@ -88,7 +88,7 @@ public class AnalisadorLexico {
             
         }
         else{
-            System.out.println("Não reconheceu: "+acc);
+            //System.out.println("Não reconheceu: "+acc);
             token.setTipo(0);
             return token;
         }
@@ -150,13 +150,13 @@ public class AnalisadorLexico {
         }while(index < tamanho && flag != 1);
         Token token = new Token();
         if(estado == 2 || estado == 4){
-            System.out.println("Reconheceu: " + acc + " -> Digito");
+            //System.out.println("Reconheceu: " + acc + " -> Digito");
                 token.setNome(acc);
                 token.setTipo(3);return token;
                 
         }
         else{
-            System.out.println("Não reconheceu: "+acc);
+            //System.out.println("Não reconheceu: "+acc);
             token.setTipo(0);return token;
         }
     }
@@ -218,12 +218,12 @@ public class AnalisadorLexico {
         }while(index < tamanho && flag != 1);
         Token token = new Token();
         if(estado == 1 || estado == 2 || estado == 3 || estado == 4 || estado == 5){
-            System.out.println("Reconheceu: " + acc + " -> Simbolo Especial");
+            //System.out.println("Reconheceu: " + acc + " -> Simbolo Especial");
                 token.setNome(acc);
                 token.setTipo(4);return token;
         }
         else{
-            System.out.println("Não reconheceu: "+acc);
+            //System.out.println("Não reconheceu: "+acc);
             token.setTipo(0);return token;
         }
     }
@@ -339,13 +339,13 @@ public class AnalisadorLexico {
         }while(index < tamanho && flag != 1);
         Token token = new Token();
         if(estado == 5 || estado == 9 || estado == 12 ){
-            System.out.println("Reconheceu: " + acc + " -> Comentário");
-            System.out.println("Texto Comentado: " + textoComentado );
+            //System.out.println("Reconheceu: " + acc + " -> Comentário");
+            //System.out.println("Texto Comentado: " + textoComentado );
                 token.setNome(acc);
                 token.setTipo(5);return token;
         }
         else{
-            System.out.println("Não reconheceu comentário: "+acc + "esperado a finalização do comentário");
+            //System.out.println("Não reconheceu comentário: "+acc + "esperado a finalização do comentário");
             token.setTipo(0);return token;
         }
     }
@@ -380,7 +380,6 @@ public class AnalisadorLexico {
             }else{
                 token.setTipo(0);
                 System.out.println("ERROR - CARACTER INVÁLIDO!");
-                index=fonte.size()+1;
             }
             
         return token;

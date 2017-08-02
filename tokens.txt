@@ -1,9 +1,25 @@
-programa main ; var dsfs : fsfsdf; dsfs : fsfsdf;
-inicio
-	leia ( aa1,aa2,aa3 );
-	leia(a_a1,aa2,aa3 );
-	error;
-fim
-.
+                        programa Teste;
 
-		
+tipo Nome=string; Nota=numero;
+
+var nomeDoAluno:Nome; nota1,nota2:Nota;
+
+procedimento DefinirNomeDoAluno;
+inicio
+leia(nome);
+nomeDoAluno := nome;
+fim
+
+funcao TotalDoAluno : numero;
+inicio
+leia(n1);
+leia(n2);
+nota1 := n1 = 3;
+nota2 := n2;
+soma := nota1 + nota2;
+fim
+inicio
+leia(nome,idade);
+fim
+
+.	

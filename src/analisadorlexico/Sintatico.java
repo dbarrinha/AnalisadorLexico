@@ -48,7 +48,7 @@ public class Sintatico {
             else declara_funcao();
         }
         comando_composto();
-        System.out.println("##ENTROU BLOCO");
+        System.out.println("##FIM BLOCO");
     }
     
     public void declara_funcao(){
@@ -58,10 +58,10 @@ public class Sintatico {
             System.out.println("Não encontrado identificador ");error();
         }
         token = lexico.lexico();
-        if(token.getTipo() == 4 && !"(".equals(token.getNome()) ){
+        if(token.getTipo() == 4 && "(".equals(token.getNome()) ){
             parametros_formais();
         }
-        token = lexico.lexico();
+        
         if(token.getTipo() != 4 && !":".equals(token.getNome())){
             System.out.println("Não encontrado ':' ");error();
         }
@@ -75,13 +75,14 @@ public class Sintatico {
         }
         token = lexico.lexico();
         bloco();
+        token = lexico.lexico();
     }
     
     public void declara_proced(){
         System.out.println("ENTROU DECLARA PROCEDIMENTO");
         token = lexico.lexico();
         if(token.getTipo() != 1){
-            System.out.println("Não encontrado identificador para proced");
+            System.out.println("Não encontrado identificador para proced");error();
         }
         token = lexico.lexico();
         if(token.getTipo() == 4 && "(".equals(token.getNome()))parametros_formais();
@@ -91,6 +92,7 @@ public class Sintatico {
         }
         token = lexico.lexico();
         bloco();
+        token = lexico.lexico();
     }
     
     public void parametros_formais(){
@@ -117,26 +119,31 @@ public class Sintatico {
                 System.out.println("Não encontrado ';' ");error();
             }
             token = lexico.lexico();
-        }while(token.getTipo() == 1 || token.getNome() == "var");
+        }while(token.getTipo() == 1 || "var".equals(token.getNome()));
         
         
     }
     
     public void comando_composto(){
-        System.out.println("--ENTROU COMANDO COMPOSTO");
+        System.out.println("--ENTROU COMANDO COMPOSTO ");
         if(!"inicio".equals(token.getNome())){
             System.out.println("Não encontrado 'inicio'");error();
         }
         token = lexico.lexico();
-        do{
         comando_sem_rotulo();
         if(!";".equals(token.getNome())){
             System.out.println("Não encontrado ';' em comando composto");error();
         }
-            
         token = lexico.lexico();
-        }while(!"fim".equals(token.getNome()));
-        System.out.println("--FIM DE COMANDO COMPOSTO");
+        while(!"fim".equals(token.getNome())){
+            
+            comando_sem_rotulo();
+            if(!";".equals(token.getNome())){
+                System.out.println("Não encontrado ';' em comando composto####");error();
+            }
+            token = lexico.lexico();
+        }
+        System.out.println("--FIM DE COMANDO COMPOSTO " + token.getNome());
     }
     
     public void comando_sem_rotulo(){
@@ -166,8 +173,7 @@ public class Sintatico {
         System.out.println("ENTROU ATRIBUIÇÃO");
         token = lexico.lexico();
         expressao();
-        token = lexico.lexico();
-        System.out.println("FIM ATRIBUIÇÃO");
+        System.out.println("FIM ATRIBUIÇÃO  " + token.getNome());
     }
     
     public void comando_condicional(){
@@ -240,10 +246,11 @@ public class Sintatico {
     
     public void expressao(){
         System.out.println("Entrou expressao");
-       do{ 
-           expressao_simples();
+        expressao_simples();
+       if("=".equals(token.getNome()) || "<>".equals(token.getNome()) || "<".equals(token.getNome()) || "<=".equals(token.getNome()) || ">".equals(token.getNome()) || ">=".equals(token.getNome())){ 
            token = lexico.lexico();
-       }while("=".equals(token.getNome()) || "<>".equals(token.getNome()) || "<".equals(token.getNome()) || "<=".equals(token.getNome()) || ">".equals(token.getNome()) || ">=".equals(token.getNome()));
+           expressao_simples();
+       }
     }
     
     public void expressao_simples(){
@@ -253,24 +260,18 @@ public class Sintatico {
             token = lexico.lexico();
         }
         termo();
-        do{
-            if(!"+".equals(token.getNome()) || !"-".equals(token.getNome()) || !"ou".equals(token.getNome())){
-                System.out.println("Não encontrado + - ou em expressão simples");error();
-            }  
+        while("+".equals(token.getNome()) || "-".equals(token.getNome()) || "ou".equals(token.getNome())){
             token = lexico.lexico();
             termo();
-        }while("+".equals(token.getNome()) || "-".equals(token.getNome()) || "ou".equals(token.getNome()));
+        }
     }
     
     public void termo(){
         fator();
-        do{
-            if(!"*".equals(token.getNome()) || !"div".equals(token.getNome()) || !"e".equals(token.getNome())){
-             System.out.println("Não encontrado * div e em termo");error();
-            }  
+        while("div".equals(token.getNome()) || "*".equals(token.getNome()) || "e".equals(token.getNome())){
             token = lexico.lexico();
             fator();
-        }while("div".equals(token.getNome()) || "*".equals(token.getNome()) || "e".equals(token.getNome()));
+        }
         
     }
     
@@ -279,13 +280,15 @@ public class Sintatico {
             token = lexico.lexico();
             if("(".equals(token.getNome())){
                 chamada_funcao();
-                token = lexico.lexico();// DECIDIR DEPOIS EM CHAMADA DE FUNÇÃO
+                token = lexico.lexico();
             }
         }else if(token.getTipo() == 3){
             System.out.println("Encontrado digito em Fator");
             token = lexico.lexico();
         }else if("(".equals(token.getNome())){
+            token = lexico.lexico();
             expressao();
+            token = lexico.lexico();
         }
     }
     
